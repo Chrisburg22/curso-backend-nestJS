@@ -4,9 +4,9 @@ import { SendGridService } from "@anchan828/nest-sendgrid";
 
 @Injectable()
 export class SendgridService {
-  constructor(private readonly sendGrid: SendGridService) {}
+  constructor(private readonly sendGrid: SendGridService) { }
 
-  async sendEmail(email:string, name:string): Promise<void> {
+  async sendEmail(email: string, name: string): Promise<void> {
     try {
       await this.sendGrid.send({
         to: email,
