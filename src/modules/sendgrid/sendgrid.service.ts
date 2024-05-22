@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { SendGridService } from '@anchan828/nest-sendgrid/dist/sendgrid.service';
 import { EmailConstructorService } from './email-constructor/email-constructor.service';
 import { selectTemplate, selectSubject } from 'src/utils/selectTemplate';
+import { ClientResponse } from '@sendgrid/mail';
 
 interface EmailConfig {
 	to?: string; // An email direction
@@ -25,12 +26,12 @@ export class SendgridService {
 		cc: '',
 	};
 
-	async sendEmail(config: EmailConfig) {
+	async sendEmail(config: EmailConfig): Promise<[ClientResponse, {}]> {
 		const { to, from, receiverName, senderName, subject, } = config;
 		const template = selectTemplate(subject);
 		const subjectToSend = selectSubject(subject); // This is not necessary to be customized
 		try {
-			const x = await this.sendgridService.send({
+			return await this.sendgridService.send({
 				to: 'christian.ramos@exhio.com.mx',
 				from: 'chrisburg1222@gmail.com',
 				text: 'Holi',
@@ -44,7 +45,6 @@ export class SendgridService {
 				// 	subject,
 				// }),
 			});
-			return x;
 		} catch (error) {
 			console.log(error);
 			throw error;

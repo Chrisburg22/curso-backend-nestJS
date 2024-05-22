@@ -16,9 +16,9 @@ export class SendgridController {
 
 	@Post('/feedback')
 	@HttpCode(HttpStatus.NO_CONTENT)
-	async informOfRequest(
+	async reponse(
 		@Body() data: PatientAppointmentRequestDTO,
-	) {
+	): Promise<{ appointmentSentRequestRequest: any }> {
 		try {
 			const {
 				FirstName,
@@ -33,7 +33,7 @@ export class SendgridController {
 			const senderName = `${FirstNameSender} ${LastNameSender}`;
 			const receiverName = `${FirstName} ${LastName}`;
 
-			const appointmentSentRequest = await this.sendgridService.sendEmail({
+			const appointmentSentRequestRequest = await this.sendgridService.sendEmail({
 				receiverName,
 				senderName,
 				// from: EmailSender,
@@ -50,7 +50,7 @@ export class SendgridController {
 			// 	});
 
 			return {
-				appointmentSentRequest,
+				appointmentSentRequestRequest,
 				// appointmentRequestConfirmationForSender,
 			};
 		} catch (error) {
